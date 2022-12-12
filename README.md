@@ -1,3 +1,3 @@
 # chess-client
 ## deps
-- pycurl 
+- requests (pip3 install requests)
