@@ -2,7 +2,8 @@ import requests
 from getpass import getpass
 import platform
 
-version = 0 # Using a example ID; I'll put a real one once I code the server
+version = "0" # Using a example ID; I'll put a real one once I code the server
+server = https://example.com/ # Same
 
 # Checking version (python 3.10 required)
 version = platform.python_version_tuple()
@@ -49,12 +50,19 @@ def rendertable(a1, a2, a3, a4, a5, a6, a7, a8, b1, b2, b3, b4, b5, b6, b7, b8, 
       case "bpawn":
         outputtable[i] = pieces[11]
       case " ":
-        outputtable[i] = " "
-    print("")
-    
-        
+        outputtable[i] = "_"
+  print("   _______________")
+  print("8 |" + outputtable[8] + "|" + outputtable[16] + "|" + outputtable[24] + "|" + outputtable[32] + "|" + outputtable[40] + "|" + outputtable[48] + "|" + outputtable[56] + "|" + outputtable[64] + "|") # Ascii art from https://www.asciiart.eu/sports-and-outdoors/chess
+  print("7 |" + outputtable[7] + "|" + outputtable[15] + "|" + outputtable[23] + "|" + outputtable[31] + "|" + outputtable[39] + "|" + outputtable[47] + "|" + outputtable[55] + "|" + outputtable[63] + "|") # Author unknown
+  print("6 |" + outputtable[6] + "|" + outputtable[14] + "|" + outputtable[22] + "|" + outputtable[30] + "|" + outputtable[38] + "|" + outputtable[46] + "|" + outputtable[54] + "|" + outputtable[62] + "|")
+  print("5 |" + outputtable[5] + "|" + outputtable[13] + "|" + outputtable[21] + "|" + outputtable[29] + "|" + outputtable[37] + "|" + outputtable[45] + "|" + outputtable[53] + "|" + outputtable[61] + "|") # I use multiple print statements for better readability
+  print("4 |" + outputtable[4] + "|" + outputtable[12] + "|" + outputtable[20] + "|" + outputtable[28] + "|" + outputtable[36] + "|" + outputtable[44] + "|" + outputtable[52] + "|" + outputtable[60] + "|")
+  print("3 |" + outputtable[3] + "|" + outputtable[11] + "|" + outputtable[19] + "|" + outputtable[27] + "|" + outputtable[35] + "|" + outputtable[43] + "|" + outputtable[51] + "|" + outputtable[59] + "|")
+  print("2 |" + outputtable[2] + "|" + outputtable[10] + "|" + outputtable[18] + "|" + outputtable[26] + "|" + outputtable[34] + "|" + outputtable[42] + "|" + outputtable[50] + "|" + outputtable[58] + "|")
+  print("1 |" + outputtable[1] + "|" + outputtable[9] + "|" + outputtable[17] + "|" + outputtable[25] + "|" + outputtable[33] + "|" + outputtable[41] + "|" + outputtable[49] + "|" + outputtable[57] + "|")
+  print("   a b c d e f g h") # That's the ugliest code I've ever written. But it works
 
-server = https://example.com/ # Obviously doesn't work
+
 _goodlogin = False
 while _goodlogin == False:
   username = input("Username: ")
@@ -94,10 +102,27 @@ while _playing:
     choice = "bruh"
   elif choice == "1":
     # Join a match
+    url = server + "matchreq.php"
+    parameters = {'sessionid': sessionid, 'type': global}
   elif choice == "2":
-    friend = input("What is your friend username ? ")
+    _friend = True
+    while _friend:
+      friend = input("What is your friend username ? (Type \"list\" to see your friend list) ")
+      if friend == "ls":
+        url = server + "friendls.php"
+        parameters = {'sessionid': sessionid}
+        friendlist = requests.get(url, params=parameters)
+        if sessionid.status_code == requests.codes.ok:
+          # Treating the friend list
+        else:
+          print("The server has some configuration problems, please report this error to the owner.")
+          sleep(2)
+    url = server + "matchreq.php"
+    parameters = {'sessionid': sessionid, 'type': friend}
   elif choice == "3":
     # Fetch stats
+    print("1. ELO Leaderboard")
+    print("2. Your stats")
   elif choice == "4":
     _playing = False
 print("Bye!")
