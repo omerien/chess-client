@@ -2,6 +2,8 @@ import requests
 from getpass import getpass
 import platform
 
+version = 0 # Using a example ID; I'll put a real one once I code the server
+
 # Checking version (python 3.10 required)
 version = platform.python_version_tuple()
 if version[0] < 3:
@@ -26,8 +28,30 @@ def rendertable(a1, a2, a3, a4, a5, a6, a7, a8, b1, b2, b3, b4, b5, b6, b7, b8, 
         outputtable[i] = pieces[0]
       case "bking":
         outputtable[i] = pieces[1]
-      
-        
+      case "wqueen":
+        outputtable[i] = pieces[2]
+      case "bqueen":
+        outputtable[i] = pieces[3]
+      case "wrook":
+        outputtable[i] = pieces[4]
+      case "brook":
+        outputtable[i] = pieces[5]
+      case "wbishop":
+        outputtable[i] = pieces[6]
+      case "bbishop":
+        outputtable[i] = pieces[7]
+      case "wknight":
+        outputtable[i] = pieces[8]
+      case "bknight":
+        outputtable[i] = pieces[9]
+      case "wpawn":
+        outputtable[i] = pieces[10]
+      case "bpawn":
+        outputtable[i] = pieces[11]
+      case " ":
+        outputtable[i] = " "
+    print("")
+    
         
 
 server = https://example.com/ # Obviously doesn't work
@@ -37,7 +61,7 @@ while _goodlogin == False:
   password = getpass("Password: ")
   parameters = {'username': username, 'password': password}
   url = server + "login.php"
-  sessionid = requests.get(server, , params=payload)
+  sessionid = requests.get(url, params=parameters)
   if sessionid.status_code == requests.codes.ok:
     sessionid = int(sessionid)
     if sessionid == 0:
@@ -48,6 +72,17 @@ while _goodlogin == False:
       _goodlogin = True
   else:
     print("Server error. (code" + sessionid.status_code + ")")
+
+url = server + "version"
+currversion = requests.get(url)
+if sessionid.status_code == requests.codes.ok:
+  if currversion != version:
+    print("Please update chess-client to the server version : " + currversion)
+else:
+  print("The server has some configuration problems, please report this error to the owner.")
+  sleep(2)
+
+
 while _playing:
   print("1. Join a match")
   print("2. Play with a friend")
