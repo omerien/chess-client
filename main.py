@@ -2,6 +2,15 @@ import requests
 from getpass import getpass
 import platform
 
+# Getting flags
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", help="Get da log !", action="store_true")
+options = ArgumentParser.parse_args()
+if options.v:
+  verbosemode = True
+  print("Verbose mode activated!")
+
 version = "0" # Using a example ID; I'll put a real one once I code the server
 server = https://example.com/ # Same
 
@@ -13,6 +22,8 @@ if version[0] < 3:
 if version[0] == 3 and version[1] < 10:
   print("Update to python 3.10 or upwards.")
   exit()
+if verbosemode:
+  print("Python version checked!")
 
 print("It is advised to use an high quality monospace font that supports these characters :")
 print("♔ ♚ ♕ ♛ ♖ ♜ ♗ ♝ ♘ ♞ ♙ ♟")
@@ -81,11 +92,15 @@ while _goodlogin == False:
   else:
     print("Server error. (code" + sessionid.status_code + ")")
 
+print("Checking version...")
 url = server + "version"
 currversion = requests.get(url)
 if sessionid.status_code == requests.codes.ok:
   if currversion != version:
     print("Please update chess-client to the server version : " + currversion)
+    exit()
+  elif verbosemode:
+    print("chess-client version is checked !")
 else:
   print("The server has some configuration problems, please report this error to the owner.")
   sleep(2)
