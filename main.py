@@ -110,34 +110,57 @@ while _playing:
   print("1. Join a match")
   print("2. Play with a friend")
   print("3. View stats")
+  print("4. Manage your friends")
   print("4. Quit the game")
   choice = input("What do you want to do ? ")
-  if choice != "1" and choice != "2" and choice != "3" and choice != "4":
-    # Do nothing lol
-    choice = "bruh"
-  elif choice == "1":
-    # Join a match
-    url = server + "matchreq.php"
-    parameters = {'sessionid': sessionid, 'type': global}
-  elif choice == "2":
-    _friend = True
-    while _friend:
-      friend = input("What is your friend username ? (Type \"list\" to see your friend list) ")
-      if friend == "ls":
-        url = server + "friendls.php"
-        parameters = {'sessionid': sessionid}
-        friendlist = requests.get(url, params=parameters)
-        if sessionid.status_code == requests.codes.ok:
-          # Treating the friend list
-        else:
-          print("The server has some configuration problems, please report this error to the owner.")
-          sleep(2)
-    url = server + "matchreq.php"
-    parameters = {'sessionid': sessionid, 'type': friend}
-  elif choice == "3":
-    # Fetch stats
-    print("1. ELO Leaderboard")
-    print("2. Your stats")
-  elif choice == "4":
-    _playing = False
+  match choice:
+    case "1":
+      # Join a match
+      url = server + "matchreq.php"
+      parameters = {'sessionid': sessionid, 'type': "global"}
+    case "2":
+      _friend = True
+      while _friend:
+        friend = input("What is your friend username ? (Type \"list\" to see your friend list) ")
+        if friend == "ls":
+          url = server + "friendls.php"
+          parameters = {'sessionid': sessionid}
+          friendlist = requests.get(url, params=parameters)
+          if sessionid.status_code == requests.codes.ok:
+            # Treating the friend list
+            if verbosemode:
+              print("Friend list recieved data is" + friendlist)
+            friendlistarray = friendlist.split(|)
+            if friendlist == "":
+              print("You have no friends! But don't worry, you can still do a global match and meet new ppl!")
+              _nofriends = True
+            else:
+              for i in len(friendlistarray):
+                if i % 10 == 0:
+                  suffix = "st"
+                elif (i - 1) % 10 == 0:
+                  suffix = "nd"
+                elif (i - 2) % 10 == 0:
+                  suffix = "rd"
+                else:
+                  suffix = "th"
+                friendnumber = str(i + 1)
+                print(friendnumber + suffix + ": " + friendlistarray[i])
+              _nofriends = False
+          else:
+            print("The server has some configuration problems, please report this error to the owner.")
+            sleep(2)
+      if _nofriends == False:
+        url = server + "matchreq.php"
+        parameters = {'sessionid': sessionid, 'type': "friend", 'friend' = friend}
+    case "3":
+      # Fetch stats
+      print("1. ELO Leaderboard")
+      print("2. Your stats")
+    case "4":
+      print("1. See your friend list")
+      print("2. Add a friend")
+      print("3. Delete a friend")
+    case "5":
+      _playing = False
 print("Bye!")
