@@ -153,6 +153,29 @@ while _playing:
       if _nofriends == False:
         url = server + "matchreq.php"
         parameters = {'sessionid': sessionid, 'type': "friend", 'friend' = friend}
+        matchid = requests.get(url, params=parameters)
+        _matchaccepted = False
+        while _matchaccepted == False:
+          url = server + "matchstatus.php"
+          parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "ismatchaccepted"}
+          matchstatus = requests.get(url, params=parameters)
+          if sessionid.status_code == requests.codes.ok:
+            if matchstatus == "ACK":
+              _matchaccepted = True
+            elif matchstatus == "NOP":
+              print("Match refused!")
+              break()
+            elif matchstatus == "WAIT":
+              # @ : "Bro, move your ass and come play some chess!"
+              # & : "But it's 2AM..."
+              # @ : "And?"
+              # & : "sleep(thisnight)"
+              sleep(2)
+          else:
+            print("The server has some configuration problems, please report this error to the owner.")
+            break()
+        if _matchaccepted == True:
+          
     case "3":
       # Fetch stats
       print("1. ELO Leaderboard")
