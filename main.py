@@ -1,6 +1,7 @@
 import requests
 from getpass import getpass
 import platform
+import os
 
 # Getting flags
 import argparse
@@ -113,6 +114,7 @@ while _playing:
   print("4. Manage your friends")
   print("4. Quit the game")
   choice = input("What do you want to do ? ")
+  os.system("cls")
   match choice:
     case "1":
       # Join a match
@@ -175,11 +177,20 @@ while _playing:
             print("The server has some configuration problems, please report this error to the owner.")
             break()
         if _matchaccepted == True:
-          
+          # Match started
     case "3":
       # Fetch stats
       print("1. ELO Leaderboard")
       print("2. Your stats")
+      choice = input("What do you want to do ? ")
+      url = server + stats.php
+      match choice:
+        case "1":
+          parameters = {'type': "global"}
+          
+        case "2":
+          parameters = {'type': "personal", 'sessionid': sessionid}
+      
     case "4":
       print("1. See your friend list")
       print("2. Add a friend")
