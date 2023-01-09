@@ -139,16 +139,8 @@ while _playing:
               _nofriends = True
             else:
               for i in len(friendlistarray):
-                if i % 10 == 0:
-                  suffix = "st"
-                elif (i - 1) % 10 == 0:
-                  suffix = "nd"
-                elif (i - 2) % 10 == 0:
-                  suffix = "rd"
-                else:
-                  suffix = "th"
                 friendnumber = str(i + 1)
-                print(friendnumber + suffix + ": " + friendlistarray[i])
+                print(friendnumber + ": " + friendlistarray[i])
               _nofriends = False
           else:
             print("The server has some configuration problems, please report this error to the owner.")
@@ -185,6 +177,7 @@ while _playing:
       # Fetch stats
       print("1. ELO Leaderboard")
       print("2. Your stats")
+      print("3. Friendlist")
       choice = input("What do you want to do ? ")
       url = server + stats.php
       match choice:
@@ -227,6 +220,21 @@ while _playing:
             print("The server has some configuration problems, please report this error to the owner.")
             if verbosemode:
               print("Here is da stats variable :" + stats)
+            sleep(3)
+        case "3":
+          url = server + "friendls.php"
+          parameters = {'sessionid': sessionid}
+          friendlist = requests.get(url, params=parameters)
+          if sessionid.status_code == requests.codes.ok:
+            friendlistarray = friendlist.split(|)
+            if friendlist == "":
+              print("You have no friends! But don't worry, you can still do a global match and meet new ppl!")
+            else:
+              for i in len(friendlistarray):
+                friendnumber = str(i + 1)
+                print(friendnumber + ": " + friendlistarray[i])
+          else:
+            print("The server has some configuration problems, please report this error to the owner.")
             sleep(3)
     case "4":
       print("1. See your friend list")
