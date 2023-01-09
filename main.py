@@ -101,7 +101,7 @@ if sessionid.status_code == requests.codes.ok:
     print("Please update chess-client to the server version : " + currversion)
     exit()
   elif verbosemode:
-    print("chess-client version is checked !")
+    print("chess-client version is checked! (same as server:" + currversion)
 else:
   print("The server has some configuration problems, please report this error to the owner.")
   sleep(2)
@@ -121,6 +121,7 @@ while _playing:
       url = server + "matchreq.php"
       parameters = {'sessionid': sessionid, 'type': "global"}
     case "2":
+      print("WARNING: friend matches do not add or remove ELO!")
       _friend = True
       while _friend:
         friend = input("What is your friend username ? (Type \"list\" to see your friend list) ")
@@ -165,7 +166,8 @@ while _playing:
             if matchstatus == "ACK":
               _matchaccepted = True
             elif matchstatus == "NOP":
-              print("Match refused!")
+              print("Match refused! Make sure this person is in your friend list!")
+              sleep(4)
               break()
             elif matchstatus == "WAIT":
               # @ : "Bro, move your ass and come play some chess!"
@@ -175,6 +177,7 @@ while _playing:
               sleep(2)
           else:
             print("The server has some configuration problems, please report this error to the owner.")
+            
             break()
         if _matchaccepted == True:
           # Match started
@@ -186,11 +189,45 @@ while _playing:
       url = server + stats.php
       match choice:
         case "1":
-          parameters = {'type': "global"}
-          
+          _cancontinue = False
+          try:
+            startelo = int(input("Starting from ranking n° ?"))
+            endelo = int(input("To ranking n° ?"))
+            if startelo > endelo or startelo < 1:
+              print("it's mean to trick me :\\")
+            else:
+              _cancontinue = True
+          except:
+            print("This is not a entire number !")
+          if _cancontinue:
+            parameters = {'type': "global", 'start': startelo, 'end': endelo}
+            stats = requests.get(url, params=parameters)
+            try:
+              stats = stats.split("|")
+              for i in len(stats):
+                ranking = str(startelo + i)
+                print("Ranking n°" + ranking + stats[i])
+            except:
+              print("The server has some configuration problems, please report this error to the owner.")
+              if verbosemode:
+                print("Here is da stats variable :" + stats)
+              sleep(3)
         case "2":
           parameters = {'type': "personal", 'sessionid': sessionid}
-      
+          stats = requests.get(url, params=parameters)
+          try:
+            stats = stats.split("|")
+            print("Number of matches played: " + stats[0])
+            print("Number of matches finished: " + stats[1])
+            print("Number of matches won: " + stats[2])
+            print("ELO Score: " + stats[3])
+            print("ELO Ranking" + stats[4])
+            print("Number of friend matches: " + stats[5])
+          except:
+            print("The server has some configuration problems, please report this error to the owner.")
+            if verbosemode:
+              print("Here is da stats variable :" + stats)
+            sleep(3)
     case "4":
       print("1. See your friend list")
       print("2. Add a friend")
