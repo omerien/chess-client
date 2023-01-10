@@ -169,10 +169,26 @@ while _playing:
               sleep(2)
           else:
             print("The server has some configuration problems, please report this error to the owner.")
-            
+            sleep(2)
             break()
         if _matchaccepted == True:
-          # Match started
+          # @ : There you go!
+          print("Match accepted!")
+          sleep(1)
+          parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "mycolor"}
+          color = requests.get(url, params=parameters)
+          if color == "white":
+            print("Your color is white, and you're on bottom!")
+          else:
+            print("Your color is black, and you're on top!")
+          if verbosemode:
+            print("Match id: " + matchid)
+            print("Opponent:" + friend")
+          _inmatch = True
+          if color = "white":
+            
+          while _inmatch:
+            parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
     case "3":
       # Fetch stats
       print("1. ELO Leaderboard")
