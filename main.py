@@ -186,9 +186,18 @@ while _playing:
             print("Opponent:" + friend")
           _inmatch = True
           if color = "white":
-            
+            parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
+            table = requests.get(url, params=parameters)
+            if table.status_code == requests.codes.ok:
+              tableinput = table.split("|")
+              rendertable(*tableinput)
+              coup = input("What is your movement ? (code it with \"origin+destination\") ")
+              coup = coup.replace("+", "").replace(",", "").replace(" ", "").replace("-", "").replace(">", "")
+              parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "sendcoup", 'coup': coup}
+              
           while _inmatch:
             parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
+            
     case "3":
       # Fetch stats
       print("1. ELO Leaderboard")
