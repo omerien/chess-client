@@ -105,9 +105,11 @@ if sessionid.status_code == requests.codes.ok:
 else:
   print("The server has some configuration problems, please report this error to the owner.")
   sleep(2)
+sleep(1)
 
-
+errorcode = ""
 while _playing:
+  os.system("cls")
   print("1. Join a match")
   print("2. Play with a friend")
   print("3. View stats")
@@ -188,16 +190,31 @@ while _playing:
           if color = "white":
             parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
             table = requests.get(url, params=parameters)
-            if table.status_code == requests.codes.ok:
-              tableinput = table.split("|")
+            tableinput = tuple(table.split("|"))
+            _iscoupvalid = False
+            while _iscoupvalid == False:
+              sleep(2)
               rendertable(*tableinput)
+              if errorcode != "":
+              print(errorcode)
               coup = input("What is your movement ? (code it with \"origin+destination\") ")
               coup = coup.replace("+", "").replace(",", "").replace(" ", "").replace("-", "").replace(">", "")
               parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "sendcoup", 'coup': coup}
-              
+              if len(coup) == 4
+                sendcoup = requests.get(url, params=parameters)
+                if sendcoup == "0":
+                  _iscoupvalid = True
+                  if verbosemode:
+                    print("Valid coup.")
+                else:
+                  print("Invalid coup.")
+              else:
+                print("I can't understand that coup.")
           while _inmatch:
+            print("Waiting for opponent's move...")
+            sleep(2)
             parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
-            
+            table = requests.get(url, params=parameters)tableinput = table.split("|")
     case "3":
       # Fetch stats
       print("1. ELO Leaderboard")
