@@ -7,7 +7,7 @@
 - login
 - stats
 - friendlist
-- 
+- friend matches
 
 ## not done
-- inside the matches
+- real matches (fr only got to do the ELO rating)
