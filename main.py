@@ -324,6 +324,26 @@ while _playing:
       print("1. See your friend list")
       print("2. Add a friend")
       print("3. Delete a friend")
+      choice = input("What do you want to do ? ")
+      match choice:
+        case "1":
+          url = server + "friendls.php"
+          parameters = {'sessionid': sessionid}
+          friendlist = requests.get(url, params=parameters)
+          if sessionid.status_code == requests.codes.ok:
+            # Treating the friend list
+            if verbosemode:
+              print("Friend list recieved data is" + friendlist)
+            friendlistarray = friendlist.split(|)
+            if friendlist == "":
+              print("You have no friends! But don't worry, you can still do a global match and meet new ppl!")
+            else:
+              for i in len(friendlistarray):
+                friendnumber = str(i + 1)
+                print(friendnumber + ": " + friendlistarray[i])
+        case "2":
+          
+        case "3":
     case "5":
       _playing = False
 print("Bye!")
