@@ -213,12 +213,50 @@ while _playing:
           while _inmatch:
             _waitingforopponent = True
             print("Waiting for opponent's move...")
+            parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "ismatchfinished"}
+            mstatus = requests.get(url, params=parameters)
+            if mstatus = "finished":
+              parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "result"}
+              whowon = requests.get(url, params=parameters)
+              print(whowon + " won!")
+              _inmatch = False
             parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "whoplays"}
             while _waitingforopponent:
               sleep(2)
               turn = requests.get(url, params=parameters)
               if turn = color:
                 _waitingforopponent = False
+            os.system("cls")
+            parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
+            table = requests.get(url, params=parameters)
+            tableinput = tuple(table.split("|"))
+            _iscoupvalid = False
+            while _iscoupvalid == False:
+              sleep(2)
+              rendertable(*tableinput)
+              if errorcode != "":
+              print(errorcode)
+              coup = input("What is your movement ? (code it with \"origin+destination\") ")
+              coup = coup.replace("+", "").replace(",", "").replace(" ", "").replace("-", "").replace(">", "")
+              parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "sendcoup", 'coup': coup}
+              if len(coup) == 4
+                sendcoup = requests.get(url, params=parameters)
+                if sendcoup == "0":
+                  _iscoupvalid = True
+                  if verbosemode:
+                    print("Valid coup.")
+                else:
+                  print("Invalid coup.")
+              else:
+                print("I can't understand that coup.")
+            sleep(2)
+            parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "ismatchfinished"}
+            mstatus = requests.get(url, params=parameters)
+            if mstatus = "finished":
+              parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "result"}
+              whowon = requests.get(url, params=parameters)
+              print(whowon + " won!")
+              _inmatch = False
     case "3":
       # Fetch stats
       print("1. ELO Leaderboard")
