@@ -13,7 +13,7 @@ if options.v:
   print("Verbose mode activated!")
 
 version = "0" # Using a example ID; I'll put a real one once I code the server
-server = https://example.com/ # Same
+server = "https://example.com/" # Same
 
 # Checking version (python 3.10 required)
 version = platform.python_version_tuple()
