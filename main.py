@@ -211,10 +211,14 @@ while _playing:
               else:
                 print("I can't understand that coup.")
           while _inmatch:
+            _waitingforopponent = True
             print("Waiting for opponent's move...")
-            sleep(2)
-            parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
-            table = requests.get(url, params=parameters)tableinput = table.split("|")
+            parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "whoplays"}
+            while _waitingforopponent:
+              sleep(2)
+              turn = requests.get(url, params=parameters)
+              if turn = color:
+                _waitingforopponent = False
     case "3":
       # Fetch stats
       print("1. ELO Leaderboard")
