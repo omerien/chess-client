@@ -114,7 +114,7 @@ while _playing:
   print("2. Play with a friend")
   print("3. View stats")
   print("4. Manage your friends")
-  print("4. Quit the game")
+  print("5. Quit the game")
   choice = input("What do you want to do ? ")
   os.system("cls")
   match choice:
@@ -261,7 +261,6 @@ while _playing:
       # Fetch stats
       print("1. ELO Leaderboard")
       print("2. Your stats")
-      print("3. Friendlist")
       choice = input("What do you want to do ? ")
       url = server + stats.php
       match choice:
@@ -305,25 +304,11 @@ while _playing:
             if verbosemode:
               print("Here is da stats variable :" + stats)
             sleep(3)
-        case "3":
-          url = server + "friendls.php"
-          parameters = {'sessionid': sessionid}
-          friendlist = requests.get(url, params=parameters)
-          if sessionid.status_code == requests.codes.ok:
-            friendlistarray = friendlist.split(|)
-            if friendlist == "":
-              print("You have no friends! But don't worry, you can still do a global match and meet new ppl!")
-            else:
-              for i in len(friendlistarray):
-                friendnumber = str(i + 1)
-                print(friendnumber + ": " + friendlistarray[i])
-          else:
-            print("The server has some configuration problems, please report this error to the owner.")
-            sleep(3)
     case "4":
       print("1. See your friend list")
       print("2. Add a friend")
       print("3. Delete a friend")
+      print("4. See pending friend requests")
       choice = input("What do you want to do ? ")
       match choice:
         case "1":
@@ -342,8 +327,10 @@ while _playing:
                 friendnumber = str(i + 1)
                 print(friendnumber + ": " + friendlistarray[i])
         case "2":
-          
+          friend = input
         case "3":
+          
+        case "4":
     case "5":
       _playing = False
 print("Bye!")
