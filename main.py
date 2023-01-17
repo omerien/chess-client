@@ -128,8 +128,8 @@ while _playing:
       while _friend:
         friend = input("What is your friend username ? (Type \"list\" to see your friend list) ")
         if friend == "ls":
-          url = server + "friendls.php"
-          parameters = {'sessionid': sessionid}
+          url = server + "friends.php"
+          parameters = {'sessionid': sessionid, 'action': "ls"}
           friendlist = requests.get(url, params=parameters)
           if sessionid.status_code == requests.codes.ok:
             # Treating the friend list
@@ -310,24 +310,32 @@ while _playing:
       print("3. Delete a friend")
       print("4. See pending friend requests")
       choice = input("What do you want to do ? ")
+      url = server + "friends.php"
       match choice:
         case "1":
-          url = server + "friendls.php"
-          parameters = {'sessionid': sessionid}
+          parameters = {'sessionid': sessionid, 'action': "ls"}
           friendlist = requests.get(url, params=parameters)
-          if sessionid.status_code == requests.codes.ok:
-            # Treating the friend list
-            if verbosemode:
-              print("Friend list recieved data is" + friendlist)
-            friendlistarray = friendlist.split(|)
-            if friendlist == "":
-              print("You have no friends! But don't worry, you can still do a global match and meet new ppl!")
-            else:
-              for i in len(friendlistarray):
-                friendnumber = str(i + 1)
-                print(friendnumber + ": " + friendlistarray[i])
+          # Treating the friend list
+          if verbosemode:
+            print("Friend list recieved data is" + friendlist)
+          friendlistarray = friendlist.split(|)
+          if friendlist == "":
+            print("You have no friends! But don't worry, you can still do a global match and meet new ppl!")
+          else:
+            for i in len(friendlistarray):
+              friendnumber = str(i + 1)
+              print(friendnumber + ": " + friendlistarray[i])
         case "2":
-          friend = input
+          friend = input("What is the friend's username ? ")
+          parameters = {'sessionid': sessionid, 'action': "add", 'username': friend}
+          friendreq = requests.get(url, params=parameters)
+          if friendreq == "0":
+            print("Friend request sent!")
+          elif friendreq == "1":
+            print("This person cannot recieve friend requests ; they must send you one first.")
+          elif friendreq == "2":
+            print("This username doesn't exists ; make sure you typed it correctly.")
+          sleep(2)
         case "3":
           
         case "4":
