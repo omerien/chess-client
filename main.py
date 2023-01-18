@@ -337,8 +337,26 @@ while _playing:
             print("This username doesn't exists ; make sure you typed it correctly.")
           sleep(2)
         case "3":
-          
+          friend = input("What is the friend's username ? ")
+          parameters = {'sessionid': sessionid, 'action': "del", 'username': friend}
+          frienddel = requests.get(url, params=parameters)
+          if frienddel == "0":
+            print("Friend deleted!")
+          elif frienddel == "1":
+            print("This person isn't in your friends ; make sure you typed the username correctly.")
+          sleep(2)
         case "4":
+          parameters = {'sessionid': sessionid, 'action': "lsreq"}
+          friendreqs = requests.get(url, params=parameters)
+          if verbosemode:
+            print("Friend reqs list recieved data is" + friendlist)
+          friendreqsarray = friendreqs.split(|)
+          if friendreqs == "":
+            print("You have no pending friend requests!")
+          else:
+            for i in len(friendreqsarray):
+              friendrnumber = str(i + 1)
+              print(friendrnumber + ": " + friendreqsarray[i])
     case "5":
       _playing = False
 print("Bye!")
