@@ -1,7 +1,11 @@
 import requests
 from getpass import getpass
 import platform
-import os
+import subprocess
+from sys import platform
+
+def cls():
+  subprocess.call("cls", shell = True)
 
 # Getting flags
 import argparse
@@ -109,14 +113,14 @@ sleep(1)
 
 errorcode = ""
 while _playing:
-  os.system("cls")
+  cls()
   print("1. Join a match")
   print("2. Play with a friend")
   print("3. View stats")
   print("4. Manage your friends")
   print("5. Quit the game")
   choice = input("What do you want to do ? ")
-  os.system("cls")
+  cls()
   match choice:
     case "1":
       # Join a match
@@ -226,7 +230,7 @@ while _playing:
               turn = requests.get(url, params=parameters)
               if turn = color:
                 _waitingforopponent = False
-            os.system("cls")
+            cls()
             parameters = {'sessionid': sessionid, 'matchid': matchid, 'req': "table"}
             table = requests.get(url, params=parameters)
             tableinput = tuple(table.split("|"))
@@ -357,6 +361,7 @@ while _playing:
             for i in len(friendreqsarray):
               friendrnumber = str(i + 1)
               print(friendrnumber + ": " + friendreqsarray[i])
+          choice = input("Do you want to delete some of these ?")
     case "5":
       _playing = False
 print("Bye!")
