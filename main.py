@@ -361,7 +361,10 @@ while _playing:
             for i in len(friendreqsarray):
               friendrnumber = str(i + 1)
               print(friendrnumber + ": " + friendreqsarray[i])
-          choice = input("Do you want to delete some of these ?")
+          choice = input("Do you want to delete some of these ? (y/n)")
+          if choice == "Y" or choice == "y"
+            input("Which ones ? (use numbers, you can separate them with commas) ")
+            
     case "5":
       _playing = False
 print("Bye!")
